@@ -1,15 +1,24 @@
 import express from "express";
 import { isAdmin, isAuth } from "../middlewares/isAuth.js";
-import { addLecture, createCourse, deleteCourse, deleteLacture, getAllStats, getAllUsers, updateRole, } from "../controllers/admin.js";
-import { uploadFiles} from "../middlewares/multer.js"
+import {
+  addLecture,
+  createCourse,
+  deleteCourse,
+  deleteLecture,
+  getAllStats,
+  getAllUsers,
+  updateRole,
+} from "../controllers/admin.js";
+import { uploadFiles } from "../middlewares/multer.js";
 
-const routers = express.Router();
+const router = express.Router();
 
-routers.post("/course/new", isAuth, isAdmin, uploadFiles, createCourse);
-routers.post("/course/:id",isAuth, isAdmin, uploadFiles, addLecture);
-routers.delete("/course/:id",isAuth, isAdmin, deleteCourse);
-routers.delete("/lecture/:id", isAuth, isAdmin, deleteLacture);
-routers.get('/stats', isAuth, isAdmin, getAllStats);
-routers.put('/user/:id',isAuth, updateRole);
-routers.get("/users",isAuth, isAdmin, getAllUsers);
-export default routers;
+router.post("/course/new", isAuth, isAdmin, uploadFiles, createCourse);
+router.post("/course/:id", isAuth, isAdmin, uploadFiles, addLecture);
+router.delete("/course/:id", isAuth, isAdmin, deleteCourse);
+router.delete("/lecture/:id", isAuth, isAdmin, deleteLecture);
+router.get("/stats", isAuth, isAdmin, getAllStats);
+router.put("/user/:id", isAuth, updateRole);
+router.get("/users", isAuth, isAdmin, getAllUsers);
+
+export default router;

@@ -1,16 +1,16 @@
-import{createTransport} from 'nodemailer'
+import { createTransport } from "nodemailer";
 
-const sendMail = async(to, subject, data) => {
-    const transport = createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        auth:{
-            user: process.env.Gmail,
-            pass: process.env.Password,
-        },
-    });
+const sendMail = async (email, subject, data) => {
+  const transport = createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    auth: {
+      user: process.env.Gmail,
+      pass: process.env.Password,
+    },
+  });
 
-    const html = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -59,10 +59,10 @@ const sendMail = async(to, subject, data) => {
 
   await transport.sendMail({
     from: process.env.Gmail,
-    to: to,
+    to: email,
     subject,
-    html
-  })
+    html,
+  });
 };
 
 export default sendMail;
@@ -77,7 +77,7 @@ export const sendForgotMail = async (subject, data) => {
     },
   });
 
-const html = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">

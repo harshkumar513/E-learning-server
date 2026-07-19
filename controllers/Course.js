@@ -23,7 +23,7 @@ export const getSingleCourse = TryCatch(async (req, res) => {
 });
 
 export const fetchLectures = TryCatch(async (req, res) => {
-  const lectures = await Lecture.find({ course: req.params.id });
+  const lectures = await Lecture.find({ Course: req.params.id });
 
   const user = await User.findById(req.user._id);
 
@@ -31,7 +31,11 @@ export const fetchLectures = TryCatch(async (req, res) => {
     return res.json({ lectures });
   }
 
-  if (!user.subscription.includes(req.params.id))
+  const isSubscribed = user.subscription.some(
+    (id) => id.toString() === req.params.id
+  );
+
+  if (!isSubscribed)
     return res.status(400).json({
       message: "You have not subscribed to this course",
     });
@@ -48,7 +52,11 @@ export const fetchLecture = TryCatch(async (req, res) => {
     return res.json({ lecture });
   }
 
-  if (!user.subscription.includes(lecture.course))
+  const isSubscribed = user.subscription.some(
+    (id) => id.toString() === lecture.Course.toString()
+  );
+
+  if (!isSubscribed)
     return res.status(400).json({
       message: "You have not subscribed to this course",
     });
@@ -69,7 +77,11 @@ export const checkout = TryCatch(async (req, res) => {
 
   const course = await Courses.findById(req.params.id);
 
-  if (user.subscription.includes(course._id)) {
+  const alreadySubscribed = user.subscription.some(
+    (id) => id.toString() === course._id.toString()
+  );
+
+  if (alreadySubscribed) {
     return res.status(400).json({
       message: "You already have this course",
     });
@@ -163,7 +175,8 @@ export const getYourProgress = TryCatch(async (req, res) => {
 
   if (!progress) return res.status(404).json({ message: "null" });
 
-  const allLectures = (await Lecture.find({ course: req.query.course })).length;
+  const allLectures = (await Lecture.find({ Course: req.query.course }))
+    .length;
 
   const completedLectures = progress[0].completedLectures.length;
 

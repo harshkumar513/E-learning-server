@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import connectDb from "./database/db.js";
 import Razorpay from 'razorpay';
 import cors from 'cors';
+import fileUpload from "express-fileupload";
+import os from "os";
 
 dotenv.config();
 
@@ -17,6 +19,12 @@ const app = express()
 //using middlewares
 app.use(express.json());
 app.use(cors());
+app.use(
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: os.tmpdir(),
+    })
+);
 
 const port= process.env.PORT;
 
