@@ -32,8 +32,8 @@ export const fetchLectures = TryCatch(async (req, res) => {
   }
 
   const isSubscribed = user.subscription.some(
-    (id) => id.toString() === req.params.id
-  );
+  (id) => id.toString() === lecture.course.toString()
+);
 
   if (!isSubscribed)
     return res.status(400).json({
