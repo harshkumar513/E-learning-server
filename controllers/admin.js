@@ -71,7 +71,7 @@ export const addLecture = TryCatch(async (req, res) => {
     title,
     description,
     video: cloud.secure_url,
-    Course: course._id,
+    course: course._id,
   });
 
   res.status(201).json({

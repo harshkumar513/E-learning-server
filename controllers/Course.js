@@ -23,7 +23,7 @@ export const getSingleCourse = TryCatch(async (req, res) => {
 });
 
 export const fetchLectures = TryCatch(async (req, res) => {
-  const lectures = await Lecture.find({ Course: req.params.id });
+  const lectures = await Lecture.find({ course: req.params.id });
 
   const user = await User.findById(req.user._id);
 
@@ -176,7 +176,7 @@ export const getYourProgress = TryCatch(async (req, res) => {
 if (!progress || progress.length === 0)
   return res.status(404).json({ message: "null" });
 
-  const allLectures = (await Lecture.find({ Course: req.query.course }))
+  const allLectures = (await Lecture.find({ course: req.query.course }))
     .length;
 
   const completedLectures = progress[0].completedLectures.length;
