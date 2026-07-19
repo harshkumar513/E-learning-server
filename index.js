@@ -23,6 +23,7 @@ app.use(
     fileUpload({
         useTempFiles: true,
         tempFileDir: os.tmpdir(),
+        limits: { fileSize: 100 * 1024 * 1024 },
     })
 );
 
