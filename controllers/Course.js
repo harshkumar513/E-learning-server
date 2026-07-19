@@ -97,6 +97,7 @@ export const checkout = TryCatch(async (req, res) => {
   res.status(201).json({
     order,
     course,
+    key_id: process.env.Razorpay_Key,
   });
 });
 
